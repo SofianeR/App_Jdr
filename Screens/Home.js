@@ -51,7 +51,7 @@ const HomeScreen = ({ darkMode }) => {
         characterList.map((item, index) => {
           console.log(item);
           return (
-            <View>
+            <View key={index}>
               <Text
                 style={darkMode ? themeStyle.dark.text : themeStyle.light.text}>
                 {item.name}
