@@ -4,24 +4,30 @@ import {
   View,
   Text,
   TouchableOpacity,
+  Button,
   Dimensions,
   StyleSheet,
 } from "react-native";
 
-const SettingsScreen = ({ darkMode, setDarkMode }) => {
+const SettingsScreen = ({ darkMode, setDarkMode, setUser }) => {
   return (
     <View
       style={[
         darkMode ? themeStyle.dark.container : themeStyle.light.container,
       ]}>
-      <TouchableOpacity
+      <Button
+        title={"DarkMode"}
         onPress={() => {
           setDarkMode(!darkMode);
-        }}>
-        <Text style={darkMode ? themeStyle.dark.text : themeStyle.light.text}>
-          DarkMode
-        </Text>
-      </TouchableOpacity>
+        }}
+      />
+
+      <Button
+        title="Déconnexion"
+        onPress={() => {
+          setUser(null);
+        }}
+      />
     </View>
   );
 };

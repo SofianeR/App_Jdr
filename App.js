@@ -12,6 +12,7 @@ import SignUpScreen from "./Screens/SignUp";
 import HomeScreen from "./Screens/Home";
 import SettingsScreen from "./Screens/Settings";
 import CreateCharacter from "./Screens/CreateCharacter/CreateCharacter";
+import SingleCharacterScreen from "./Screens/SingleCharacter/SingleCharacterScreen";
 
 // import icon
 import { Ionicons } from "@expo/vector-icons";
@@ -40,11 +41,9 @@ export default function App() {
           <Stack.Screen name="Login">
             {(props) => <LoginScreen {...props} setUser={setUser} />}
           </Stack.Screen>
-          <Stack.Screen
-            name="SignUp"
-            component={SignUpScreen}
-            setUser={setUser}
-          />
+          <Stack.Screen name={"SignUp"}>
+            {(props) => <SignUpScreen {...props} setUser={setUser} />}
+          </Stack.Screen>
         </Stack.Navigator>
       ) : (
         <Tab.Navigator
@@ -61,6 +60,7 @@ export default function App() {
           <Tab.Screen
             name={"Home"}
             options={{
+              unmountOnBlur: true,
               tabBarIcon: () => {
                 return (
                   <Ionicons
@@ -79,13 +79,26 @@ export default function App() {
               tabBarInactiveBackgroundColor: darkMode
                 ? themeStyle.dark.container.backgroundColor
                 : themeStyle.light.container.backgroundColor,
+              headerShown: false,
             }}>
-            {(props) => <HomeScreen darkMode={darkMode} />}
+            {(props) => (
+              <Stack.Navigator>
+                <Stack.Screen name={"HomeScreen"}>
+                  {(props) => (
+                    <HomeScreen {...props} darkMode={darkMode} token={token} />
+                  )}
+                </Stack.Screen>
+                <Stack.Screen name="SingleCharacter">
+                  {(props) => <SingleCharacterScreen {...props} />}
+                </Stack.Screen>
+              </Stack.Navigator>
+            )}
           </Tab.Screen>
 
           <Tab.Screen
             name={"Create Character"}
             options={{
+              unmountOnBlur: true,
               tabBarIcon: () => {
                 return (
                   <Ionicons
@@ -105,7 +118,9 @@ export default function App() {
                 ? themeStyle.dark.container.backgroundColor
                 : themeStyle.light.container.backgroundColor,
             }}>
-            {(props) => <CreateCharacter {...props} darkMode={darkMode} />}
+            {(props) => (
+              <CreateCharacter {...props} darkMode={darkMode} token={token} />
+            )}
           </Tab.Screen>
 
           <Tab.Screen
@@ -135,6 +150,7 @@ export default function App() {
                 {...props}
                 setDarkMode={setDarkMode}
                 darkMode={darkMode}
+                setUser={setUser}
               />
             )}
           </Tab.Screen>

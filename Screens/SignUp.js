@@ -27,7 +27,8 @@ const SignUpScreen = ({ navigation, setUser }) => {
     try {
       if (password === confirmPassword) {
         const response = await axios.post(
-          "https://jdr-app.herokuapp.com/user/signup",
+          // "https://jdr-app.herokuapp.com/user/signup",
+          "http://localhost:3000/user/signup",
           {
             email: email,
             username: username,

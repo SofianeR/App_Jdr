@@ -10,23 +10,27 @@ import {
   StyleSheet,
   Button,
 } from "react-native";
+import LoadingComponent from "../Shared/LoadingComponent";
 
-const HomeScreen = ({ darkMode }) => {
+const HomeScreen = ({ darkMode, token, navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const [characterList, setCharacterList] = useState();
+  const [characterList, setCharacterList] = useState([]);
 
   useEffect(() => {
     const fetchCharacter = async () => {
       setIsLoading(true);
       setErrorMessage("");
       try {
-        const response = await axios.get("http://localhost:3000/character/all");
+        const response = await axios.post(
+          "http://localhost:3000/character/all",
+          {
+            token,
+          }
+        );
 
         setCharacterList(response.data.listCharacter);
-
-        console.log(response.data.listCharacter);
       } catch (error) {
         setErrorMessage(error.message);
       }
@@ -34,31 +38,32 @@ const HomeScreen = ({ darkMode }) => {
     };
     fetchCharacter();
   }, []);
+
+  const navigateToSingle = () => {};
+
   return isLoading ? (
-    <View
-      style={darkMode ? themeStyle.dark.container : themeStyle.light.container}>
-      <Text style={darkMode ? themeStyle.dark.text : themeStyle.light.text}>
-        En cours de chargement
-      </Text>
-    </View>
+    <LoadingComponent darkMode={darkMode} />
   ) : (
     <View
       style={darkMode ? themeStyle.dark.container : themeStyle.light.container}>
       <Text style={darkMode ? themeStyle.dark.text : themeStyle.light.text}>
         HomeScreen
       </Text>
-      {characterList &&
-        characterList.map((item, index) => {
-          console.log(item);
-          return (
-            <View key={index}>
-              <Text
-                style={darkMode ? themeStyle.dark.text : themeStyle.light.text}>
-                {item.name}
-              </Text>
-            </View>
-          );
-        })}
+      {characterList.map((item, index) => {
+        console.log(item);
+        return (
+          <TouchableOpacity
+            key={index}
+            onPress={() => {
+              navigation.navigate("SingleCharacter", { character: item });
+            }}>
+            <Text
+              style={darkMode ? themeStyle.dark.text : themeStyle.light.text}>
+              {item.name}
+            </Text>
+          </TouchableOpacity>
+        );
+      })}
     </View>
   );
 };

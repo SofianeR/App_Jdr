@@ -14,7 +14,7 @@ import StatComponent from "./StatComponent";
 import NameClassComponent from "./NameClass";
 import axios from "axios";
 
-const CreateCharacter = ({ darkMode }) => {
+const CreateCharacter = ({ darkMode, token, navigation }) => {
   // navigation components
   const [next, setNext] = useState(0);
 
@@ -53,6 +53,7 @@ const CreateCharacter = ({ darkMode }) => {
             alignment: alignment,
           },
           characteristicsArray: characteristics,
+          token: token,
         }
       );
       console.log(response.data);
@@ -60,6 +61,7 @@ const CreateCharacter = ({ darkMode }) => {
       console.log(error.message);
     }
     setIsLoading(false);
+    navigation.navigate("HomeScreen");
   };
 
   return (
