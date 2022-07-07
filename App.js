@@ -36,7 +36,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      {!token ? (
+      {/* {!token ? (
         <Stack.Navigator>
           <Stack.Screen name="Login">
             {(props) => <LoginScreen {...props} setUser={setUser} />}
@@ -45,117 +45,117 @@ export default function App() {
             {(props) => <SignUpScreen {...props} setUser={setUser} />}
           </Stack.Screen>
         </Stack.Navigator>
-      ) : (
-        <Tab.Navigator
-          screenOptions={{
-            headerStyle: {
-              backgroundColor: darkMode
-                ? themeStyle.dark.container.backgroundColor
-                : themeStyle.light.container.backgroundColor,
+      ) : ( */}
+
+      <Tab.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: darkMode
+              ? themeStyle.dark.container.backgroundColor
+              : themeStyle.light.container.backgroundColor,
+          },
+          headerTitleStyle: {
+            color: darkMode ? themeStyle.dark.color : themeStyle.light.color,
+          },
+        }}>
+        <Tab.Screen
+          name={"Home"}
+          options={{
+            unmountOnBlur: true,
+            tabBarIcon: () => {
+              return (
+                <Ionicons
+                  name="home-outline"
+                  size={24}
+                  color={
+                    darkMode ? themeStyle.dark.color : themeStyle.light.color
+                  }
+                />
+              );
             },
-            headerTitleStyle: {
-              color: darkMode ? themeStyle.dark.color : themeStyle.light.color,
-            },
+
+            tabBarActiveBackgroundColor: darkMode
+              ? themeStyle.dark.activeTab
+              : themeStyle.light.activeTab,
+            tabBarInactiveBackgroundColor: darkMode
+              ? themeStyle.dark.container.backgroundColor
+              : themeStyle.light.container.backgroundColor,
+            headerShown: false,
           }}>
-          <Tab.Screen
-            name={"Home"}
-            options={{
-              unmountOnBlur: true,
-              tabBarIcon: () => {
-                return (
-                  <Ionicons
-                    name="home-outline"
-                    size={24}
-                    color={
-                      darkMode ? themeStyle.dark.color : themeStyle.light.color
-                    }
-                  />
-                );
-              },
+          {(props) => (
+            <Stack.Navigator>
+              <Stack.Screen name={"HomeScreen"}>
+                {(props) => (
+                  <HomeScreen {...props} darkMode={darkMode} token={token} />
+                )}
+              </Stack.Screen>
+              <Stack.Screen name="SingleCharacter">
+                {(props) => <SingleCharacterScreen {...props} />}
+              </Stack.Screen>
+            </Stack.Navigator>
+          )}
+        </Tab.Screen>
 
-              tabBarActiveBackgroundColor: darkMode
-                ? themeStyle.dark.activeTab
-                : themeStyle.light.activeTab,
-              tabBarInactiveBackgroundColor: darkMode
-                ? themeStyle.dark.container.backgroundColor
-                : themeStyle.light.container.backgroundColor,
-              headerShown: false,
-            }}>
-            {(props) => (
-              <Stack.Navigator>
-                <Stack.Screen name={"HomeScreen"}>
-                  {(props) => (
-                    <HomeScreen {...props} darkMode={darkMode} token={token} />
-                  )}
-                </Stack.Screen>
-                <Stack.Screen name="SingleCharacter">
-                  {(props) => <SingleCharacterScreen {...props} />}
-                </Stack.Screen>
-              </Stack.Navigator>
-            )}
-          </Tab.Screen>
+        <Tab.Screen
+          name={"Create Character"}
+          options={{
+            unmountOnBlur: true,
+            tabBarIcon: () => {
+              return (
+                <Ionicons
+                  name="add-circle-outline"
+                  size={24}
+                  color={
+                    darkMode ? themeStyle.dark.color : themeStyle.light.color
+                  }
+                />
+              );
+            },
 
-          <Tab.Screen
-            name={"Create Character"}
-            options={{
-              unmountOnBlur: true,
-              tabBarIcon: () => {
-                return (
-                  <Ionicons
-                    name="add-circle-outline"
-                    size={24}
-                    color={
-                      darkMode ? themeStyle.dark.color : themeStyle.light.color
-                    }
-                  />
-                );
-              },
+            tabBarActiveBackgroundColor: darkMode
+              ? themeStyle.dark.activeTab
+              : themeStyle.light.activeTab,
+            tabBarInactiveBackgroundColor: darkMode
+              ? themeStyle.dark.container.backgroundColor
+              : themeStyle.light.container.backgroundColor,
+          }}>
+          {(props) => (
+            <CreateCharacter {...props} darkMode={darkMode} token={token} />
+          )}
+        </Tab.Screen>
 
-              tabBarActiveBackgroundColor: darkMode
-                ? themeStyle.dark.activeTab
-                : themeStyle.light.activeTab,
-              tabBarInactiveBackgroundColor: darkMode
-                ? themeStyle.dark.container.backgroundColor
-                : themeStyle.light.container.backgroundColor,
-            }}>
-            {(props) => (
-              <CreateCharacter {...props} darkMode={darkMode} token={token} />
-            )}
-          </Tab.Screen>
+        <Tab.Screen
+          name={"Settings"}
+          options={{
+            tabBarIcon: () => {
+              return (
+                <Ionicons
+                  name="ios-settings-outline"
+                  size={24}
+                  color={
+                    darkMode ? themeStyle.dark.color : themeStyle.light.color
+                  }
+                />
+              );
+            },
 
-          <Tab.Screen
-            name={"Settings"}
-            options={{
-              tabBarIcon: () => {
-                return (
-                  <Ionicons
-                    name="ios-settings-outline"
-                    size={24}
-                    color={
-                      darkMode ? themeStyle.dark.color : themeStyle.light.color
-                    }
-                  />
-                );
-              },
-
-              tabBarActiveBackgroundColor: darkMode
-                ? themeStyle.dark.activeTab
-                : themeStyle.light.activeTab,
-              tabBarInactiveBackgroundColor: darkMode
-                ? themeStyle.dark.container.backgroundColor
-                : themeStyle.light.container.backgroundColor,
-            }}>
-            {(props) => (
-              <SettingsScreen
-                {...props}
-                setDarkMode={setDarkMode}
-                darkMode={darkMode}
-                setUser={setUser}
-              />
-            )}
-          </Tab.Screen>
-        </Tab.Navigator>
-      )}
+            tabBarActiveBackgroundColor: darkMode
+              ? themeStyle.dark.activeTab
+              : themeStyle.light.activeTab,
+            tabBarInactiveBackgroundColor: darkMode
+              ? themeStyle.dark.container.backgroundColor
+              : themeStyle.light.container.backgroundColor,
+          }}>
+          {(props) => (
+            <SettingsScreen
+              {...props}
+              setDarkMode={setDarkMode}
+              darkMode={darkMode}
+              setUser={setUser}
+            />
+          )}
+        </Tab.Screen>
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }

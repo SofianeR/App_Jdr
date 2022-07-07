@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   View,
@@ -52,7 +52,7 @@ const CreateCharacter = ({ darkMode, token, navigation }) => {
             class: classe,
             alignment: alignment,
           },
-          characteristicsArray: characteristics,
+          characteristics: characteristics,
           token: token,
         }
       );
@@ -73,15 +73,6 @@ const CreateCharacter = ({ darkMode, token, navigation }) => {
         },
         darkMode ? themeStyle.dark.container : themeStyle.light.container,
       ]}>
-      <Text style={[styles.title, { color: themeStyle.dark.color }]}>
-        Title catégory
-      </Text>
-      <TouchableOpacity
-        onPress={() => {
-          console.log(characteristics);
-        }}>
-        <Text style={themeStyle.dark.text}>Console</Text>
-      </TouchableOpacity>
       {next === 0 ? (
         <NameClassComponent
           name={name}

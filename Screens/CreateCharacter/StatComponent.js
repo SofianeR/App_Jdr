@@ -12,6 +12,7 @@ const StatComponent = ({ darkMode, characteristics, setCharacteristics }) => {
             return (
               <View style={styles.statBox} key={index}>
                 <TextInput
+                  keyboardType="numeric"
                   value={item[keys]}
                   style={{
                     color: "black",
@@ -21,7 +22,11 @@ const StatComponent = ({ darkMode, characteristics, setCharacteristics }) => {
                   onChangeText={(value) => {
                     const copyCharacteristics = [...characteristics];
 
-                    item[keys] = value;
+                    if (value > 20) {
+                      item[keys] = "20";
+                    } else {
+                      item[keys] = value;
+                    }
 
                     setCharacteristics(copyCharacteristics);
                   }}

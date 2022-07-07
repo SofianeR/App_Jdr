@@ -4,11 +4,8 @@ import { View, Text, Image, StyleSheet } from "react-native";
 
 const LoadingComponent = ({ darkMode }) => {
   return (
-    <View
-      style={darkMode ? themeStyle.dark.container : themeStyle.light.container}>
-      <Text style={darkMode ? themeStyle.dark.text : themeStyle.light.text}>
-        En cours de chargement ...
-      </Text>
+    <View style={[themeStyle.dark.container, styles.container]}>
+      <Text style={themeStyle.dark.text}>En cours de chargement ...</Text>
     </View>
   );
 };
