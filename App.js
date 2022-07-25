@@ -6,8 +6,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 // import Screens
-import LoginScreen from "./Screens/Login";
-import SignUpScreen from "./Screens/SignUp";
+import LoginScreen from "./Screens/Login_SignUp/Login";
+import SignUpScreen from "./Screens/Login_SignUp/SignUp";
 
 import HomeScreen from "./Screens/Home";
 import SettingsScreen from "./Screens/Settings";
@@ -38,10 +38,36 @@ export default function App() {
     <NavigationContainer>
       {!token ? (
         <Stack.Navigator>
-          <Stack.Screen name="Login">
+          <Stack.Screen
+            name="Login"
+            options={{
+              title: "Connexion",
+              headerStyle: {
+                backgroundColor: "#3490dc",
+              },
+              headerTitleStyle: {
+                color: "white",
+                fontWeight: "bold",
+              },
+              headerTitleAlign: "center",
+            }}>
             {(props) => <LoginScreen {...props} setUser={setUser} />}
           </Stack.Screen>
-          <Stack.Screen name={"SignUp"}>
+          <Stack.Screen
+            name={"SignUp"}
+            options={{
+              title: "Creer un compte",
+              headerStyle: {
+                backgroundColor: "#3490dc",
+              },
+              headerTitleStyle: {
+                color: "white",
+                fontWeight: "bold",
+              },
+              headerBackVisible: false,
+
+              headerTitleAlign: "center",
+            }}>
             {(props) => <SignUpScreen {...props} setUser={setUser} />}
           </Stack.Screen>
         </Stack.Navigator>
@@ -164,10 +190,10 @@ const themeStyle = require("./Styles/ThemeMode");
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#222222",
-    alignItems: "center",
-    justifyContent: "center",
-    color: "white",
+    // flex: 1,
+    // backgroundColor: "#222222",
+    // alignItems: "center",
+    // justifyContent: "center",
+    // color: "white",
   },
 });

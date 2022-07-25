@@ -8,15 +8,18 @@ import {
   TouchableOpacity,
   StyleSheet,
   Dimensions,
+  Button,
 } from "react-native";
 
 import axios from "axios";
 
-import NameClassComponent from "./NameClass";
-import ClassComponent from "./ClassComponent";
-import StatComponent from "./StatComponent";
-import FlavorComponent from "./FlavorComponent";
-import RaceComponent from "./RaceComponent";
+import NameComponent from "./NameComponent/NameComponent";
+import AlignmentComponent from "./AlignmentComponent/AlignmentComponent";
+import RaceComponent from "./RaceComponent/RaceComponent";
+import ClassComponent from "./ClassComponent/ClassComponent";
+import StatComponent from "./StatComponent/StatComponent";
+import FlavorComponent from "./FlavorComponent/FlavorComponent";
+import NavComponent from "./NavComponent/NavComponent";
 
 const CreateCharacter = ({ darkMode, token, navigation }) => {
   // navigation components
@@ -35,13 +38,16 @@ const CreateCharacter = ({ darkMode, token, navigation }) => {
 
   // state stats
   const [characteristics, setCharacteristics] = useState([
-    { name: "force", value: "1", modificateur: 0 },
-    { name: "dexterite", value: "1", modificateur: 0 },
-    { name: "constitution", value: "1", modificateur: 0 },
-    { name: "intelligence", value: "1", modificateur: 0 },
-    { name: "sagesse", value: "1", modificateur: 0 },
-    { name: "charisme", value: "1", modificateur: 0 },
+    { name: "force", value: false, modificateur: 0, abbr: "FOR" },
+    { name: "dexterite", value: false, modificateur: 0, abbr: "DEXT" },
+    { name: "constitution", value: false, modificateur: 0, abbr: "CONST" },
+    { name: "intelligence", value: false, modificateur: 0, abbr: "INT" },
+    { name: "sagesse", value: false, modificateur: 0, abbr: "SAG" },
+    { name: "charisme", value: false, modificateur: 0, abbr: "CHAR" },
   ]);
+
+  // state display
+  const [modal, setModal] = useState(false);
 
   const createNewCharacter = async () => {
     setErrorMessage("");
@@ -78,58 +84,53 @@ const CreateCharacter = ({ darkMode, token, navigation }) => {
         darkMode ? themeStyle.dark.container : themeStyle.light.container,
       ]}>
       {next === 0 ? (
-        <NameClassComponent
-          name={name}
-          setName={setName}
-          race={race}
-          setRace={setRace}
-          classe={classe}
-          setClasse={setClasse}
+        <NameComponent name={name} setName={setName} darkMode={darkMode} />
+      ) : next === 1 ? (
+        <AlignmentComponent
           alignment={alignment}
           setAlignment={setAlignment}
           darkMode={darkMode}
+          modal={modal}
+          setModal={setModal}
         />
-      ) : next === 1 ? (
-        <RaceComponent darkMode={darkMode} race={race} setRace={setRace} />
       ) : next === 2 ? (
+        <RaceComponent darkMode={darkMode} race={race} setRace={setRace} />
+      ) : next === 3 ? (
         <ClassComponent
           darkMode={darkMode}
           classe={classe}
           setClasse={setClasse}
         />
-      ) : next === 3 ? (
+      ) : next === 4 ? (
         <StatComponent
           darkMode={darkMode}
           characteristics={characteristics}
           setCharacteristics={setCharacteristics}
         />
-      ) : next === 4 ? (
-        <FlavorComponent darkMode={darkMode} />
       ) : next === 5 ? (
-        <View>
-          <Text>{errorMessage}</Text>
-          <TouchableOpacity onPress={createNewCharacter}>
-            <Text style={themeStyle.dark.text}>Send to Server</Text>
-          </TouchableOpacity>
-        </View>
+        <FlavorComponent darkMode={darkMode} />
+      ) : next === 6 ? (
+        isLoading ? (
+          <LoadingSendServer />
+        ) : (
+          <View>
+            <Text>{errorMessage}</Text>
+            <TouchableOpacity onPress={createNewCharacter}>
+              <Text style={themeStyle.dark.text}>Send to Server</Text>
+            </TouchableOpacity>
+          </View>
+        )
       ) : null}
-
-      <View style={styles.nav}>
-        <TouchableOpacity
+      {!modal ? (
+        <NavComponent next={next} setNext={setNext} darkMode={darkMode} />
+      ) : (
+        <Button
+          title="Console"
           onPress={() => {
-            setNext((prevState) => prevState - 1);
-          }}>
-          <Text style={{ color: themeStyle.dark.color }}>Précédent</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => {
-            setNext((prevState) => prevState + 1);
-            console.log(next);
-          }}>
-          <Text style={{ color: themeStyle.dark.color }}>Suivant</Text>
-        </TouchableOpacity>
-      </View>
+            setModal(false);
+          }}
+        />
+      )}
     </View>
   );
 };
@@ -150,11 +151,6 @@ const styles = StyleSheet.create({
     marginTop: Dimensions.get("screen").height / 30,
     justifyContent: "center",
     alignItems: "center",
-  },
-  nav: {
-    flexDirection: "row",
-    width: "100%",
-    justifyContent: "space-around",
   },
 });
 

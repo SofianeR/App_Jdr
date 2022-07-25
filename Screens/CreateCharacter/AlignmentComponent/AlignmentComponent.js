@@ -5,6 +5,7 @@ import {
   View,
   Text,
   TextInput,
+  TouchableOpacity,
   Button,
   Dimensions,
   StyleSheet,
@@ -13,12 +14,13 @@ import {
 import axios from "axios";
 import SelectDropdown from "react-native-select-dropdown";
 
-import LoadingComponent from "../../Shared/LoadingComponent";
+import LoadingGetServer from "../../../Shared/LoadingGetServer";
+import ModalAlignment from "./ModalAlignment";
 
-const NameClassComponent = ({
+const AlignmentComponent = ({
   darkMode,
-  name,
-  setName,
+  modal,
+  setModal,
   alignment,
   setAlignment,
 }) => {
@@ -70,29 +72,18 @@ const NameClassComponent = ({
   }, []);
 
   return isLoading ? (
-    <LoadingComponent />
+    <LoadingGetServer />
+  ) : modal ? (
+    <ModalAlignment
+      darkMode={darkMode}
+      alignmentsData={alignmentsData}
+      modal={modal}
+      setModal={setModal}
+    />
   ) : (
-    <ScrollView>
-      <View style={styles.container}>
-        <Text style={themeStyle.dark.text}>
-          Entre le nom de ton personnage !
-        </Text>
-        <TextInput
-          value={name}
-          style={{
-            backgroundColor: "white",
-            marginTop: Dimensions.get("screen").height / 50,
-            width: Dimensions.get("screen").width - 50,
-            padding: 5,
-            marginBottom: 0,
-          }}
-          placeholder="Nom du personnage"
-          onChangeText={(v) => {
-            setName(v);
-          }}
-        />
-      </View>
-
+    <ScrollView
+      contentContainerStyle={styles.scrollContainer}
+      showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
         <Text style={themeStyle.dark.text}>
           choisis l'alignement de ton personnage
@@ -108,34 +99,19 @@ const NameClassComponent = ({
           defaultButtonText={alignment ? alignment : null}
         />
       </View>
-      <View>
-        {alignmentsData &&
-          alignmentsData.map((item, index) => {
-            console.log(item.name);
-            return (
-              <View key={index}>
-                <Text
-                  style={
-                    darkMode ? themeStyle.dark.text : themeStyle.light.text
-                  }>
-                  {item.name}
-                </Text>
-
-                <Text
-                  style={
-                    darkMode ? themeStyle.dark.text : themeStyle.light.text
-                  }>
-                  {item.desc}
-                </Text>
-              </View>
-            );
-          })}
-      </View>
+      <TouchableOpacity
+        onPress={() => {
+          setModal(!modal);
+        }}>
+        <Text style={{ color: "white", fontSize: 30, fontWeight: "bold" }}>
+          ？
+        </Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 };
 
-const themeStyle = require("../../Styles/ThemeMode");
+const themeStyle = require("../../../Styles/ThemeMode");
 
 const styles = StyleSheet.create({
   container: {
@@ -146,6 +122,28 @@ const styles = StyleSheet.create({
     // borderColor: "orange",
     // borderWidth: 3,
   },
+
+  scrollContainer: {
+    flexGrow: 1,
+    width: Dimensions.get("screen").width - Dimensions.get("screen").width / 6,
+    position: "relative",
+  },
+
+  modal: {
+    padding: 15,
+
+    width: Dimensions.get("screen").width - Dimensions.get("screen").width / 6,
+
+    borderColor: "white",
+    borderWidth: 2,
+    borderRadius: 5,
+
+    position: "absolute",
+    top: 0,
+    zIndex: 1000,
+
+    backgroundColor: "gray",
+  },
 });
 
-export default NameClassComponent;
+export default AlignmentComponent;

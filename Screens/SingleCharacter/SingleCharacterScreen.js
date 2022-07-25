@@ -2,8 +2,7 @@ import React from "react";
 
 import { View, Text, Button, StyleSheet } from "react-native";
 
-import NameClassComponent from "../CreateCharacter/NameClass";
-
+import AlignmentComponentr from "../CreateCharacter/AlignmentComponent/AlignmentComponent";
 const SingleCharacterScreen = ({ route }) => {
   const { character } = route.params;
 

@@ -10,7 +10,7 @@ import {
   StyleSheet,
   Button,
 } from "react-native";
-import LoadingComponent from "../Shared/LoadingComponent";
+import LoadingGetServer from "../Shared/LoadingGetServer";
 
 const HomeScreen = ({ darkMode, token, navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -23,8 +23,8 @@ const HomeScreen = ({ darkMode, token, navigation }) => {
       setIsLoading(true);
       setErrorMessage("");
       try {
-        //  const url_server =   "http://localhost:3000/character/all"
-        const url_server = "https://jdr-app.herokuapp.com/charcter/all";
+        // const url_server = "http://localhost:3000/character/all";
+        const url_server = "https://jdr-app.herokuapp.com/character/all";
 
         const response = await axios.post(url_server, {
           token,
@@ -42,7 +42,7 @@ const HomeScreen = ({ darkMode, token, navigation }) => {
   const navigateToSingle = () => {};
 
   return isLoading ? (
-    <LoadingComponent darkMode={darkMode} />
+    <LoadingGetServer darkMode={darkMode} />
   ) : (
     <View
       style={darkMode ? themeStyle.dark.container : themeStyle.light.container}>

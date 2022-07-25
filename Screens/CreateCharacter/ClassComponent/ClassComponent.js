@@ -13,7 +13,7 @@ import {
 import axios from "axios";
 import SelectDropdown from "react-native-select-dropdown";
 
-import LoadingComponent from "../../Shared/LoadingComponent";
+import LoadingGetServer from "../../../Shared/LoadingGetServer";
 
 const ClassComponent = ({ setClasse, classe, darkMode }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -76,7 +76,7 @@ const ClassComponent = ({ setClasse, classe, darkMode }) => {
   };
 
   return isLoading ? (
-    <LoadingComponent />
+    <LoadingGetServer />
   ) : (
     <ScrollView
       contentContainerStyle={styles.scrollContainer}
@@ -270,7 +270,7 @@ const ClassComponent = ({ setClasse, classe, darkMode }) => {
   );
 };
 
-const themeStyle = require("../../Styles/ThemeMode");
+const themeStyle = require("../../../Styles/ThemeMode");
 
 const styles = StyleSheet.create({
   scrollContainer: {

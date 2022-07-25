@@ -13,7 +13,7 @@ import {
 
 import axios from "axios";
 import SelectDropdown from "react-native-select-dropdown";
-import LoadingComponent from "../../Shared/LoadingComponent";
+import LoadingGetServer from "../../../Shared/LoadingGetServer";
 
 const RaceComponent = ({ darkMode, race, setRace }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -54,8 +54,6 @@ const RaceComponent = ({ darkMode, race, setRace }) => {
       const response = await axios.get(url_api);
 
       setRaceDetails(response.data);
-
-      console.log(url_api);
     } catch (error) {
       setErrorMessage(error.message);
     }
@@ -67,7 +65,7 @@ const RaceComponent = ({ darkMode, race, setRace }) => {
       <Text style={darkMode ? themeStyle.dark.text : themeStyle.light.text}>
         {errorMessage}
       </Text>
-      <LoadingComponent />
+      <LoadingGetServer />
     </View>
   ) : (
     <View style={{ flex: 1 }}>
@@ -101,11 +99,10 @@ const RaceComponent = ({ darkMode, race, setRace }) => {
         </View>
         {raceDetails && (
           <View
-          // style={[
-          //   darkMode ? themeStyle.dark.container : themeStyle.light.container,
-          //   { borderColor: "red", borderWidth: 2 },
-          // ]}
-          >
+            style={[
+              darkMode ? themeStyle.dark.container : themeStyle.light.container,
+              { borderColor: "red", borderWidth: 2 },
+            ]}>
             <View>
               {/* <Text
               style={darkMode ? themeStyle.dark.text : themeStyle.light.text}>
@@ -219,7 +216,6 @@ const RaceComponent = ({ darkMode, race, setRace }) => {
               </Text>
               {raceDetails.ability_bonuses &&
                 raceDetails.ability_bonuses.map((bonus, index) => {
-                  console.log(bonus);
                   return (
                     <View key={index}>
                       <Text
@@ -274,14 +270,13 @@ const RaceComponent = ({ darkMode, race, setRace }) => {
   );
 };
 
-const themeStyle = require("../../Styles/ThemeMode");
+const themeStyle = require("../../../Styles/ThemeMode");
 
 const styles = StyleSheet.create({
   scrollContainer: {
     flexGrow: 1,
-    // alignItems: "center",
-    // justifyContent: "center",
     width: Dimensions.get("screen").width - Dimensions.get("screen").width / 6,
+
     // borderWidth: 3,
     // borderColor: "red",
   },
