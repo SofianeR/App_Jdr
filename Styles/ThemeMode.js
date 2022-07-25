@@ -7,7 +7,7 @@ module.exports = StyleSheet.create({
     activeTab: "white",
 
     container: {
-      flex: 1,
+      // flex: 1,
 
       paddingHorizontal: Dimensions.get("screen").width / 13,
       paddingTop: Dimensions.get("screen").height / 30,
@@ -25,7 +25,8 @@ module.exports = StyleSheet.create({
     activeTab: "#05162A",
 
     container: {
-      flex: 1,
+      // flex: 1,
+      flexGrow: 1,
 
       paddingHorizontal: Dimensions.get("screen").width / 13,
       paddingTop: Dimensions.get("screen").height / 30,

@@ -26,15 +26,14 @@ const SignUpScreen = ({ navigation, setUser }) => {
     setIsLoading(true);
     try {
       if (password === confirmPassword) {
-        const response = await axios.post(
-          // "https://jdr-app.herokuapp.com/user/signup",
-          "http://localhost:3000/user/signup",
-          {
-            email: email,
-            username: username,
-            password: password,
-          }
-        );
+        //  const url_server =   "http://localhost:3000/user/signup"
+        const url_server = "https://jdr-app.herokuapp.com/user/signup";
+
+        const response = await axios.post(url_server, {
+          email: email,
+          username: username,
+          password: password,
+        });
         console.log(response.data);
         setUser(response.data.token);
       } else {

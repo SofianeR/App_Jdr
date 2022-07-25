@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import {
+  ScrollView,
   View,
   Text,
   TextInput,
@@ -15,63 +16,19 @@ import SelectDropdown from "react-native-select-dropdown";
 import LoadingComponent from "../../Shared/LoadingComponent";
 
 const NameClassComponent = ({
+  darkMode,
   name,
   setName,
-  race,
-  setRace,
-  classe,
-  setClasse,
   alignment,
   setAlignment,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const [races, setRaces] = useState([]);
-  const [classes, setClasses] = useState([]);
   const [alignments, setAlignments] = useState([]);
+  const [alignmentsData, setAlignmentData] = useState();
 
   useEffect(() => {
-    const getClass = async () => {
-      setIsLoading(true);
-      setErrorMessage("");
-      try {
-        const response = await axios.get("https://www.dnd5eapi.co/api/classes");
-
-        const results = response.data.results;
-
-        const arrayClass = [];
-
-        results.map((result) => {
-          arrayClass.push(result.name);
-        });
-        setClasses(arrayClass);
-      } catch (error) {
-        setErrorMessage(error.message);
-      }
-      setIsLoading(false);
-    };
-
-    const getRaces = async () => {
-      setIsLoading(true);
-      setErrorMessage("");
-      try {
-        const response = await axios.get("https://www.dnd5eapi.co/api/races");
-        const results = response.data.results;
-
-        const copy = [];
-
-        results.map((result) => {
-          copy.push(result.name);
-        });
-
-        setRaces(copy);
-      } catch (error) {
-        setErrorMessage(error.message);
-      }
-      setIsLoading(false);
-    };
-
     const getAlignments = async () => {
       setIsLoading(true);
       setErrorMessage("");
@@ -83,26 +40,39 @@ const NameClassComponent = ({
         const results = response.data.results;
 
         const arrayAlignments = [];
+        const arrayDescriptionAlignments = [];
 
-        results.map((result) => {
+        const promiseToResolve = results.map(async (result) => {
           arrayAlignments.push(result.name);
+
+          const response = await axios.get(
+            `https://www.dnd5eapi.co${result.url}`
+          );
+
+          arrayDescriptionAlignments.push({
+            name: response.data.name,
+            desc: response.data.desc,
+          });
         });
-        setAlignments(arrayAlignments);
+
+        return Promise.all(promiseToResolve).then(() => {
+          setAlignments(arrayAlignments);
+          setAlignmentData(arrayDescriptionAlignments);
+          setIsLoading(false);
+        });
       } catch (error) {
         setErrorMessage(error.message);
       }
       setIsLoading(false);
     };
 
-    getClass();
-    getRaces();
     getAlignments();
   }, []);
 
   return isLoading ? (
     <LoadingComponent />
   ) : (
-    <View>
+    <ScrollView>
       <View style={styles.container}>
         <Text style={themeStyle.dark.text}>
           Entre le nom de ton personnage !
@@ -123,40 +93,6 @@ const NameClassComponent = ({
         />
       </View>
 
-      <View
-        // style={{
-        //   marginTop: Dimensions.get("screen").height / 30,
-        // }}
-        style={styles.container}>
-        <Text style={themeStyle.dark.text}>
-          Choisis la race de ton personnage.
-        </Text>
-        <SelectDropdown
-          buttonStyle={{
-            marginTop: Dimensions.get("screen").height / 50,
-          }}
-          data={races}
-          onSelect={(selectedItem, index) => {
-            setRace(selectedItem);
-          }}
-        />
-      </View>
-
-      <View style={styles.container}>
-        <Text style={themeStyle.dark.text}>
-          choisis la classe de ton personnage
-        </Text>
-        <SelectDropdown
-          buttonStyle={{
-            marginTop: Dimensions.get("screen").height / 50,
-          }}
-          data={classes}
-          onSelect={(selectedItem, index) => {
-            setClasse(selectedItem);
-          }}
-        />
-      </View>
-
       <View style={styles.container}>
         <Text style={themeStyle.dark.text}>
           choisis l'alignement de ton personnage
@@ -169,9 +105,33 @@ const NameClassComponent = ({
           onSelect={(selectedItem, index) => {
             setAlignment(selectedItem);
           }}
+          defaultButtonText={alignment ? alignment : null}
         />
       </View>
-    </View>
+      <View>
+        {alignmentsData &&
+          alignmentsData.map((item, index) => {
+            console.log(item.name);
+            return (
+              <View key={index}>
+                <Text
+                  style={
+                    darkMode ? themeStyle.dark.text : themeStyle.light.text
+                  }>
+                  {item.name}
+                </Text>
+
+                <Text
+                  style={
+                    darkMode ? themeStyle.dark.text : themeStyle.light.text
+                  }>
+                  {item.desc}
+                </Text>
+              </View>
+            );
+          })}
+      </View>
+    </ScrollView>
   );
 };
 

@@ -23,12 +23,12 @@ const HomeScreen = ({ darkMode, token, navigation }) => {
       setIsLoading(true);
       setErrorMessage("");
       try {
-        const response = await axios.post(
-          "http://localhost:3000/character/all",
-          {
-            token,
-          }
-        );
+        //  const url_server =   "http://localhost:3000/character/all"
+        const url_server = "https://jdr-app.herokuapp.com/charcter/all";
+
+        const response = await axios.post(url_server, {
+          token,
+        });
 
         setCharacterList(response.data.listCharacter);
       } catch (error) {

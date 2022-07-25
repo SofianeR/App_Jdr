@@ -10,9 +10,13 @@ import {
   Dimensions,
 } from "react-native";
 
-import StatComponent from "./StatComponent";
-import NameClassComponent from "./NameClass";
 import axios from "axios";
+
+import NameClassComponent from "./NameClass";
+import ClassComponent from "./ClassComponent";
+import StatComponent from "./StatComponent";
+import FlavorComponent from "./FlavorComponent";
+import RaceComponent from "./RaceComponent";
 
 const CreateCharacter = ({ darkMode, token, navigation }) => {
   // navigation components
@@ -31,37 +35,37 @@ const CreateCharacter = ({ darkMode, token, navigation }) => {
 
   // state stats
   const [characteristics, setCharacteristics] = useState([
-    { force: "" },
-    { dext: "" },
-    { const: "" },
-    { int: "" },
-    { sag: "" },
-    { char: "" },
+    { name: "force", value: "1", modificateur: 0 },
+    { name: "dexterite", value: "1", modificateur: 0 },
+    { name: "constitution", value: "1", modificateur: 0 },
+    { name: "intelligence", value: "1", modificateur: 0 },
+    { name: "sagesse", value: "1", modificateur: 0 },
+    { name: "charisme", value: "1", modificateur: 0 },
   ]);
 
   const createNewCharacter = async () => {
     setErrorMessage("");
     setIsLoading(true);
     try {
-      const response = await axios.post(
-        "http://localhost:3000/character/create/",
-        {
-          generalInfo: {
-            name: name,
-            race: race,
-            class: classe,
-            alignment: alignment,
-          },
-          characteristics: characteristics,
-          token: token,
-        }
-      );
+      //  const url_server =   "http://localhost:3000/character/create"
+      const url_server = "https://jdr-app.herokuapp.com/charcter/create";
+
+      const response = await axios.post(url_server, {
+        generalInfo: {
+          name: name,
+          race: race,
+          class: classe,
+          alignment: alignment,
+        },
+        characteristics: characteristics,
+        token: token,
+      });
       console.log(response.data);
     } catch (error) {
       console.log(error.message);
     }
     setIsLoading(false);
-    navigation.navigate("HomeScreen");
+    // navigation.navigate("Home");
   };
 
   return (
@@ -83,15 +87,27 @@ const CreateCharacter = ({ darkMode, token, navigation }) => {
           setClasse={setClasse}
           alignment={alignment}
           setAlignment={setAlignment}
+          darkMode={darkMode}
         />
       ) : next === 1 ? (
+        <RaceComponent darkMode={darkMode} race={race} setRace={setRace} />
+      ) : next === 2 ? (
+        <ClassComponent
+          darkMode={darkMode}
+          classe={classe}
+          setClasse={setClasse}
+        />
+      ) : next === 3 ? (
         <StatComponent
           darkMode={darkMode}
           characteristics={characteristics}
           setCharacteristics={setCharacteristics}
         />
-      ) : next === 2 ? (
+      ) : next === 4 ? (
+        <FlavorComponent darkMode={darkMode} />
+      ) : next === 5 ? (
         <View>
+          <Text>{errorMessage}</Text>
           <TouchableOpacity onPress={createNewCharacter}>
             <Text style={themeStyle.dark.text}>Send to Server</Text>
           </TouchableOpacity>
@@ -109,6 +125,7 @@ const CreateCharacter = ({ darkMode, token, navigation }) => {
         <TouchableOpacity
           onPress={() => {
             setNext((prevState) => prevState + 1);
+            console.log(next);
           }}>
           <Text style={{ color: themeStyle.dark.color }}>Suivant</Text>
         </TouchableOpacity>

@@ -20,7 +20,10 @@ const LoginScreen = ({ navigation, setUser }) => {
     setIsLoading(true);
     setErrorMessage("");
     try {
-      const response = await axios.post("http://localhost:3000/user/login", {
+      // const url_server = "http://localhost:3000/user/login";
+      const url_server = "https://jdr-app.herokuapp.com/user/login";
+
+      const response = await axios.post(url_server, {
         email: email,
         password: password,
       });
