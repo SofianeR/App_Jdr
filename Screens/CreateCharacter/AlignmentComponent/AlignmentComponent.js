@@ -91,6 +91,10 @@ const AlignmentComponent = ({
         <SelectDropdown
           buttonStyle={{
             marginTop: Dimensions.get("screen").height / 50,
+            borderColor: "red",
+            borderWidth: 2,
+            height: "20%",
+            // width: "20%",
           }}
           data={alignments}
           onSelect={(selectedItem, index) => {

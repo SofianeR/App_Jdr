@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import {
+  ScrollView,
   View,
   Text,
   TextInput,
@@ -21,7 +22,7 @@ const FlavorComponent = ({ darkMode }) => {
   const [liens, setLiens] = useState([]);
 
   return (
-    <View style={styles.inputView}>
+    <ScrollView contentContainerStyle={styles.inputView}>
       <View
         style={{
           marginTop: Dimensions.get("screen").height / 30,
@@ -45,7 +46,6 @@ const FlavorComponent = ({ darkMode }) => {
               flexDirection: "row",
             }}>
             {ideaux.map((item, index) => {
-              console.log(item);
               return (
                 <TouchableOpacity
                   onPress={() => {
@@ -69,7 +69,7 @@ const FlavorComponent = ({ darkMode }) => {
         <TextInput
           value={inputIdeal}
           placeholder="Idéaux"
-          style={styles.inputLogin}
+          style={styles.inputState}
           placeholderTextColor={"#3490dc"}
           onChangeText={(v) => {
             setInputIdeal(v);
@@ -103,20 +103,63 @@ const FlavorComponent = ({ darkMode }) => {
           marginTop: Dimensions.get("screen").height / 30,
           alignItems: "center",
         }}>
-        {defauts.length > 0 &&
-          defauts.map((item) => {
-            // console.log(item);
+        <View
+          style={{
+            width: "100%",
+            justifyContent: "space-around",
+            flexDirection: "row",
+          }}>
+          {defauts.map((item, index) => {
+            return (
+              <TouchableOpacity
+                onPress={() => {
+                  const copyDefauts = [...defauts];
+                  copyDefauts.splice(index, 1);
+                  setDefauts(copyDefauts);
+                }}>
+                <Text
+                  style={{
+                    fontSize: 15,
+                    fontWeight: "bold",
+                    color: "white",
+                  }}>
+                  {item}
+                </Text>
+              </TouchableOpacity>
+            );
           })}
+        </View>
 
         <TextInput
           value={inputDefaut}
           placeholder="Defaut"
-          style={styles.inputLogin}
+          style={styles.inputState}
           placeholderTextColor={"#3490dc"}
           onChangeText={(v) => {
             setInputDefaut(v);
           }}
         />
+
+        <TouchableOpacity
+          style={{
+            padding: 5,
+            borderRadius: 5,
+            backgroundColor: themeStyle.blueColor,
+            marginTop: "2%",
+          }}
+          onPress={() => {
+            const copyDefaut = [...defauts];
+            if (copyDefaut.length < 3) {
+              copyDefaut.push(inputDefaut);
+
+              setDefauts(copyDefaut);
+
+              setInputDefaut("");
+            } else {
+            }
+          }}>
+          <Text style={{ color: "white" }}>Ajouter +</Text>
+        </TouchableOpacity>
       </View>
 
       <View
@@ -124,15 +167,62 @@ const FlavorComponent = ({ darkMode }) => {
           marginTop: Dimensions.get("screen").height / 30,
           alignItems: "center",
         }}>
+        <View
+          style={{
+            width: "100%",
+            justifyContent: "space-around",
+            flexDirection: "row",
+          }}>
+          {traitPersonnalite.map((item, index) => {
+            return (
+              <TouchableOpacity
+                onPress={() => {
+                  const copyTraits = [...traitPersonnalite];
+                  copyTraits.splice(index, 1);
+                  setTraitPersonnalite(copyTraits);
+                }}>
+                <Text
+                  style={{
+                    fontSize: 15,
+                    fontWeight: "bold",
+                    color: "white",
+                  }}>
+                  {item}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
         <TextInput
           value={inputTraits}
           placeholder="Traits de Personnalité"
-          style={styles.inputLogin}
+          style={styles.inputState}
           placeholderTextColor={"#3490dc"}
           onChangeText={(v) => {
             setInputTraits(v);
           }}
         />
+
+        <TouchableOpacity
+          style={{
+            padding: 5,
+            borderRadius: 5,
+            backgroundColor: themeStyle.blueColor,
+            marginTop: "2%",
+          }}
+          onPress={() => {
+            const copyTraits = [...traitPersonnalite];
+            if (copyTraits.length < 3) {
+              copyTraits.push(inputTraits);
+
+              setTraitPersonnalite(copyTraits);
+
+              setInputTraits("");
+            } else {
+            }
+          }}>
+          <Text style={{ color: "white" }}>Ajouter +</Text>
+        </TouchableOpacity>
       </View>
 
       <View
@@ -140,17 +230,63 @@ const FlavorComponent = ({ darkMode }) => {
           marginTop: Dimensions.get("screen").height / 30,
           alignItems: "center",
         }}>
+        <View
+          style={{
+            width: "100%",
+            justifyContent: "space-around",
+            flexDirection: "row",
+          }}>
+          {liens.map((item, index) => {
+            return (
+              <TouchableOpacity
+                onPress={() => {
+                  const copyLiens = [...liens];
+                  copyLiens.splice(index, 1);
+                  setLiens(copyLiens);
+                }}>
+                <Text
+                  style={{
+                    fontSize: 15,
+                    fontWeight: "bold",
+                    color: "white",
+                  }}>
+                  {item}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
         <TextInput
           value={inputLiens}
           placeholder="Liens"
-          style={styles.inputLogin}
+          style={styles.inputState}
           placeholderTextColor={"#3490dc"}
           onChangeText={(v) => {
             setInputLien(v);
           }}
         />
+        <TouchableOpacity
+          style={{
+            padding: 5,
+            borderRadius: 5,
+            backgroundColor: themeStyle.blueColor,
+            marginTop: "2%",
+          }}
+          onPress={() => {
+            const copyLiens = [...liens];
+            if (copyLiens.length < 3) {
+              copyLiens.push(inputLiens);
+
+              setLiens(copyLiens);
+
+              setInputLien("");
+            } else {
+            }
+          }}>
+          <Text style={{ color: "white" }}>Ajouter +</Text>
+        </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -160,9 +296,10 @@ const themeStyle = require("../../../Styles/ThemeMode");
 
 const styles = StyleSheet.create({
   inputView: {
-    marginTop: Dimensions.get("screen").height / 20,
+    // marginTop: Dimensions.get("screen").height / 20,
+    width: Dimensions.get("screen").width,
   },
-  inputLogin: {
+  inputState: {
     padding: 10,
     marginTop: Dimensions.get("screen").height / 40,
     backgroundColor: "white",

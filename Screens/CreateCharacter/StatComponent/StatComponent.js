@@ -15,6 +15,7 @@ import { DraxProvider, DraxView } from "react-native-drax";
 
 const StatComponent = ({ darkMode, characteristics, setCharacteristics }) => {
   const [charactValues, setCharactValues] = useState([]);
+  const [singleDiceThrowValues, setSingleDiceThrowValues] = useState([]);
 
   const [alertMessage, setAlertMessage] = useState(false);
 
@@ -39,19 +40,50 @@ const StatComponent = ({ darkMode, characteristics, setCharacteristics }) => {
   };
 
   const diceThrowSingle = () => {
-    const copyCharactValues = [...charactValues];
+    let copySingleDiceValues = [...singleDiceThrowValues];
 
-    if (copyCharactValues.length < 6) {
-      copyCharactValues.push(Math.floor(Math.random() * (7 - 2) + 2));
-    } else {
-      setAlertMessage(true);
+    if (copySingleDiceValues.length < 4) {
+      copySingleDiceValues.push(Math.floor(Math.random() * (6 - 1) + 1));
+      copySingleDiceValues.sort();
+    } else if (copySingleDiceValues.length === 4) {
+      copySingleDiceValues.shift();
+
+      const sum = copySingleDiceValues.reduce(
+        (prevSum, num) => prevSum + num,
+        0
+      );
+
+      const copyCharactValues = [...charactValues];
+
+      const copyCharacteristics = [...characteristics];
+
+      let numberCharacteristicsSet = 0;
+
+      copyCharacteristics.map((item) => {
+        if (item.value) {
+          numberCharacteristicsSet += 1;
+        }
+      });
+      const checkForNumber =
+        copyCharactValues.length + numberCharacteristicsSet;
+      if (checkForNumber < 6) {
+        copyCharactValues.push(sum);
+
+        setCharactValues(copyCharactValues);
+
+        copySingleDiceValues = [];
+
+        copySingleDiceValues.push(Math.floor(Math.random() * (6 - 1) + 1));
+      } else {
+        setAlertMessage(true);
+      }
     }
 
-    setCharactValues(copyCharactValues);
+    setSingleDiceThrowValues(copySingleDiceValues);
   };
   return (
     <ScrollView contentContainerStyle={[styles.container]}>
-      {charactValues.length <= 0 ? (
+      {charactValues.length <= 0 && singleDiceThrowValues.length <= 0 ? (
         <Text
           style={{
             fontWeight: "bold",
@@ -62,6 +94,22 @@ const StatComponent = ({ darkMode, characteristics, setCharacteristics }) => {
           Caractéristiques et modificateurs
         </Text>
       ) : null}
+      <Button
+        title="console"
+        onPress={() => {
+          const copyCharacteristics = [...characteristics];
+
+          let checkIfFull = true;
+
+          copyCharacteristics.map((item) => {
+            if (!item.value) {
+              checkIfFull = false;
+            }
+          });
+          console.log(checkIfFull);
+        }}
+      />
+
       {alertMessage ? (
         <View style={styles.modalAlert}>
           <Text
@@ -88,6 +136,16 @@ const StatComponent = ({ darkMode, characteristics, setCharacteristics }) => {
               onPress={() => {
                 const copyCharactValues = [];
                 setCharactValues(copyCharactValues);
+
+                const copyCharacteristics = [...characteristics];
+
+                copyCharacteristics.map((item) => {
+                  item.value = 0;
+                  item.modificateur = 0;
+                });
+
+                setCharacteristics(copyCharacteristics);
+
                 setAlertMessage(false);
               }}>
               <Text style={styles.diceThrowButton}>OUI</Text>
@@ -115,11 +173,7 @@ const StatComponent = ({ darkMode, characteristics, setCharacteristics }) => {
             {charactValues.map((charactValue, index) => {
               return (
                 <DraxView
-                  style={[
-                    styles.centeredContent,
-                    styles.draggableBox,
-                    styles.yellow,
-                  ]}
+                  style={[styles.centeredContent, styles.draggableBox]}
                   draggingStyle={styles.dragging}
                   dragReleasedStyle={styles.dragging}
                   hoverDraggingStyle={styles.hoverDragging}
@@ -138,10 +192,41 @@ const StatComponent = ({ darkMode, characteristics, setCharacteristics }) => {
             })}
           </View>
         )}
+        {singleDiceThrowValues && (
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-around",
+              width: Dimensions.get("screen").width,
+            }}>
+            {singleDiceThrowValues.map((diceValue, index) => {
+              return (
+                <View
+                  style={{
+                    marginTop: Dimensions.get("screen").height / 40,
+                    paddingVertical: 10,
+                    paddingHorizontal: 15,
+                    borderColor: themeStyle.blueColor,
+                    backgroundColor: index > 0 ? "#06C2A3" : "#FF7B6F",
+                    borderRadius: "50%",
+                  }}>
+                  <Text
+                    style={{
+                      color: "white",
+                      fontWeight: "bold",
+                      fontSize: 17,
+                    }}>
+                    {diceValue}
+                  </Text>
+                </View>
+              );
+            })}
+          </View>
+        )}
         <View style={styles.Stat}>
           <View style={{ flex: 1, alignItems: "center" }}>
             <Text style={{ fontSize: 40, fontWeight: "bold", color: "white" }}>
-              {charactValues[charactValues.length - 1]}
+              {singleDiceThrowValues[singleDiceThrowValues.length - 1]}
             </Text>
           </View>
           <View style={styles.containerStat}>

@@ -13,6 +13,8 @@ import {
 
 import axios from "axios";
 
+import LoadingSendServer from "../../Shared/LoadingSendServer";
+
 import NameComponent from "./NameComponent/NameComponent";
 import AlignmentComponent from "./AlignmentComponent/AlignmentComponent";
 import RaceComponent from "./RaceComponent/RaceComponent";
@@ -20,6 +22,7 @@ import ClassComponent from "./ClassComponent/ClassComponent";
 import StatComponent from "./StatComponent/StatComponent";
 import FlavorComponent from "./FlavorComponent/FlavorComponent";
 import NavComponent from "./NavComponent/NavComponent";
+import CharacterBackground from "./FlavorComponent/CharacterBackground";
 
 const CreateCharacter = ({ darkMode, token, navigation }) => {
   // navigation components
@@ -38,12 +41,12 @@ const CreateCharacter = ({ darkMode, token, navigation }) => {
 
   // state stats
   const [characteristics, setCharacteristics] = useState([
-    { name: "force", value: false, modificateur: 0, abbr: "FOR" },
-    { name: "dexterite", value: false, modificateur: 0, abbr: "DEXT" },
-    { name: "constitution", value: false, modificateur: 0, abbr: "CONST" },
-    { name: "intelligence", value: false, modificateur: 0, abbr: "INT" },
-    { name: "sagesse", value: false, modificateur: 0, abbr: "SAG" },
-    { name: "charisme", value: false, modificateur: 0, abbr: "CHAR" },
+    { name: "force", value: 0, modificateur: 0, abbr: "FOR" },
+    { name: "dexterite", value: 0, modificateur: 0, abbr: "DEXT" },
+    { name: "constitution", value: 0, modificateur: 0, abbr: "CONST" },
+    { name: "intelligence", value: 0, modificateur: 0, abbr: "INT" },
+    { name: "sagesse", value: 0, modificateur: 0, abbr: "SAG" },
+    { name: "charisme", value: 0, modificateur: 0, abbr: "CHAR" },
   ]);
 
   // state display
@@ -110,6 +113,8 @@ const CreateCharacter = ({ darkMode, token, navigation }) => {
       ) : next === 5 ? (
         <FlavorComponent darkMode={darkMode} />
       ) : next === 6 ? (
+        <CharacterBackground darkMode={darkMode} />
+      ) : next === 7 ? (
         isLoading ? (
           <LoadingSendServer />
         ) : (
