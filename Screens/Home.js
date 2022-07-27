@@ -50,7 +50,6 @@ const HomeScreen = ({ darkMode, token, navigation }) => {
         HomeScreen
       </Text>
       {characterList.map((item, index) => {
-        console.log(item);
         return (
           <TouchableOpacity
             key={index}

@@ -16,6 +16,7 @@ import SingleCharacterScreen from "./Screens/SingleCharacter/SingleCharacterScre
 
 // import icon
 import { Ionicons } from "@expo/vector-icons";
+import ModalHelp from "./Shared/modalHelp";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -145,7 +146,22 @@ export default function App() {
                 : themeStyle.light.container.backgroundColor,
             }}>
             {(props) => (
-              <CreateCharacter {...props} darkMode={darkMode} token={token} />
+              <Stack.Navigator>
+                <Stack.Screen
+                  name={"CreationComponent"}
+                  options={{ headerShown: false }}>
+                  {(props) => (
+                    <CreateCharacter
+                      {...props}
+                      darkMode={darkMode}
+                      token={token}
+                    />
+                  )}
+                </Stack.Screen>
+                <Stack.Screen name="Help" options={{ headerShown: false }}>
+                  {(props) => <ModalHelp {...props} darkMode={darkMode} />}
+                </Stack.Screen>
+              </Stack.Navigator>
             )}
           </Tab.Screen>
 

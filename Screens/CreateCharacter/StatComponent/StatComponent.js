@@ -106,7 +106,7 @@ const StatComponent = ({ darkMode, characteristics, setCharacteristics }) => {
               checkIfFull = false;
             }
           });
-          console.log(checkIfFull);
+          // console.log(checkIfFull);
         }}
       />
 

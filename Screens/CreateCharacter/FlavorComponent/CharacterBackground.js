@@ -52,7 +52,6 @@ const CharacterBackground = ({ darkMode }) => {
                   const copyAppearance = [...characterAppearance];
                   copyAppearance[index][keys] = v;
                   setCharacterAppearance(copyAppearance);
-                  console.log(characterAppearance);
                 }}
               />
             );

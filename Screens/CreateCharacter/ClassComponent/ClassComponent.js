@@ -14,6 +14,9 @@ import axios from "axios";
 import SelectDropdown from "react-native-select-dropdown";
 
 import LoadingGetServer from "../../../Shared/LoadingGetServer";
+import WeaponMastery from "./WeaponMastery";
+import Proficiencies from "./Proficiencies";
+import Equipment from "./Equipment";
 
 const ClassComponent = ({ setClasse, classe, darkMode }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -84,7 +87,7 @@ const ClassComponent = ({ setClasse, classe, darkMode }) => {
       <Button
         title="Console"
         onPress={() => {
-          //   console.log(equipements);
+          // console.log(classeDetails);
           //   console.log(bonusMaitrise, bonusMaitrise.length);
         }}
       />
@@ -122,147 +125,57 @@ const ClassComponent = ({ setClasse, classe, darkMode }) => {
             </Text>
 
             <Text
-              style={[
-                darkMode ? themeStyle.dark.text : themeStyle.light.text,
-                { marginBottom: 5 },
-              ]}>
-              Maîtrises des armes et armures :
+              style={darkMode ? themeStyle.dark.text : themeStyle.light.text}>
+              Jet de Savegarde :
             </Text>
+            {classeDetails.saving_throws.map((item) => {
+              return (
+                <Text
+                  style={
+                    darkMode ? themeStyle.dark.text : themeStyle.light.text
+                  }>
+                  {item.name}
+                </Text>
+              );
+            })}
 
-            <View style={styles.proficienciesContainer}>
-              {classeDetails.proficiencies.map((item, index) => {
-                return (
-                  <View key={index}>
-                    <Text
-                      style={
-                        darkMode ? themeStyle.dark.text : themeStyle.light.text
-                      }>
-                      {item.name}
-                      {index < classeDetails.proficiencies.length - 1 && ","}
-                    </Text>
-                  </View>
-                );
-              })}
-            </View>
+            <WeaponMastery darkMode={darkMode} classeDetails={classeDetails} />
 
-            <View style={{ marginTop: 10 }}>
-              {classeDetails.proficiency_choices.map((item) => {
-                return (
+            <Proficiencies
+              darkMode={darkMode}
+              classeDetails={classeDetails}
+              bonusMaitrise={bonusMaitrise}
+              setBonusMaitrise={setBonusMaitrise}
+              setErrorMessage={setErrorMessage}
+            />
+
+            <Equipment darkMode={darkMode} classeDetails={classeDetails} />
+
+            <View></View>
+            {classeDetails.spellcasting ? (
+              <View>
+                <Text style={[themeStyle.title, { color: "white" }]}>
+                  SpellCasting
+                </Text>
+                <View>
+                  <Text style={themeStyle.dark.text}>
+                    {`Stat pour sorts : ${classeDetails.spellcasting.spellcasting_ability.name}`}
+                  </Text>
                   <View>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        flexWrap: "wrap",
-                        marginBottom: 10,
-                      }}>
-                      {bonusMaitrise.length > 0 &&
-                        bonusMaitrise.map((selectedBonus, index) => {
-                          return (
-                            <TouchableOpacity
-                              onPress={() => {
-                                setErrorMessage("");
-                                const copyBonusMaitrise = [...bonusMaitrise];
-                                copyBonusMaitrise.splice(index, 1);
-                                setBonusMaitrise(copyBonusMaitrise);
-                              }}>
-                              <Text
-                                key={index}
-                                style={
-                                  darkMode
-                                    ? themeStyle.dark.text
-                                    : themeStyle.light.text
-                                }>
-                                {selectedBonus}
-                              </Text>
-                            </TouchableOpacity>
-                          );
-                        })}
-                    </View>
-
-                    <Text
-                      style={
-                        darkMode ? themeStyle.dark.text : themeStyle.light.text
-                      }>
-                      Choisissez {item.choose} bonus de maîtrise de la liste
-                      suivante
-                    </Text>
-
-                    <View style={{ marginTop: 10, alignItems: "center" }}>
-                      {item.from.map((bonus, index) => {
-                        return (
-                          <TouchableOpacity
-                            style={{ marginTop: 5 }}
-                            onPress={() => {
-                              if (bonusMaitrise.indexOf() === "-1") {
-                                console.log("pas trouvé");
-                              } else {
-                                console.log("trouvé");
-                              }
-                              if (bonusMaitrise.length < item.choose) {
-                                const copyBonusMaitrise = [...bonusMaitrise];
-                                copyBonusMaitrise.push(bonus.name);
-
-                                setBonusMaitrise(copyBonusMaitrise);
-                              } else {
-                                setErrorMessage(
-                                  "Vous avez atteint le nombre maximum de bonus autorisés"
-                                );
-                              }
-                            }}>
-                            <Text
-                              style={[
-                                darkMode
-                                  ? themeStyle.dark.text
-                                  : themeStyle.light.text,
-                                ,
-                              ]}>
-                              {bonus.name}
-                            </Text>
-                          </TouchableOpacity>
-                        );
-                      })}
-                    </View>
+                    {classeDetails.spellcasting.info.map((item, index) => {
+                      return (
+                        <View>
+                          <Text style={[themeStyle.title, { color: "white" }]}>
+                            {item.name}
+                          </Text>
+                          <Text style={themeStyle.dark.text}>{item.desc}</Text>
+                        </View>
+                      );
+                    })}
                   </View>
-                );
-              })}
-            </View>
-            <View>
-              {classeDetails.starting_equipment_options.map((item, index) => {
-                return (
-                  <View>
-                    <Text
-                      style={
-                        darkMode ? themeStyle.dark.text : themeStyle.light.text
-                      }>
-                      Choisissez {item.choose} element(s) de la liste suivante
-                    </Text>
-                    <View>
-                      {item.from.map((equipmentItem, index) => {
-                        const keys = Object.keys(equipmentItem);
-                        console.log(equipmentItem[keys[0]]);
-
-                        return (
-                          <TouchableOpacity key={index}>
-                            <Text
-                              style={
-                                darkMode
-                                  ? themeStyle.dark.text
-                                  : themeStyle.light.text
-                              }>
-                              {keys[0] === "equipment"
-                                ? equipmentItem[keys[0]].name
-                                : keys[0] !== "equipment_option"
-                                ? equipmentItem[keys[0]].equipment.name
-                                : null}
-                            </Text>
-                          </TouchableOpacity>
-                        );
-                      })}
-                    </View>
-                  </View>
-                );
-              })}
-            </View>
+                </View>
+              </View>
+            ) : null}
           </View>
         )}
       </View>
@@ -289,11 +202,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     // width: Dimensions.get("screen").width,
     // paddingHorizontal: Dimensions.get("screen").width / 30,
-  },
-  proficienciesContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "center",
   },
 });
 

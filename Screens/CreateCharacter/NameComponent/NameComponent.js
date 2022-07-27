@@ -27,7 +27,7 @@ const NameComponent = ({ darkMode, name, setName }) => {
       quality: 1,
     });
 
-    console.log(result);
+    // console.log(result);
 
     if (!result.cancelled) {
       setCharacterPicture(result.uri);

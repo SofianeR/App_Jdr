@@ -88,7 +88,6 @@ const FlavorComponent = ({ darkMode }) => {
               copyIdeaux.push(inputIdeal);
 
               setIdeaux(copyIdeaux);
-              console.log(ideaux);
 
               setInputIdeal("");
             } else {

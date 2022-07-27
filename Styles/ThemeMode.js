@@ -1,11 +1,29 @@
 import { StyleSheet, Dimensions } from "react-native";
 
 module.exports = StyleSheet.create({
+  title: {
+    fontWeight: "bold",
+    fontSize: 20,
+    textAlign: "center",
+    marginTop: Dimensions.get("screen").height / 30,
+    marginBottom: "2%",
+  },
+
+  h2: {
+    fontWeight: "bold",
+    fontSize: 17,
+    textAlign: "center",
+    marginTop: "1%",
+    marginBottom: "1%",
+  },
+
   blueColor: "#3490dc",
   light: {
     color: "black",
 
     activeTab: "white",
+
+    backgroundColor: "white",
 
     container: {
       // flex: 1,
@@ -13,15 +31,23 @@ module.exports = StyleSheet.create({
 
       // paddingHorizontal: Dimensions.get("screen").width / 13,
       // paddingTop: Dimensions.get("screen").height / 30,
+    },
 
-      backgroundColor: "white",
+    title: {
+      fontWeight: "bold",
+      fontSize: 20,
+      textAlign: "center",
+      marginTop: Dimensions.get("screen").height / 30,
+      marginBottom: Dimensions.get("screen").height / 50,
+      color: "black",
     },
 
     text: {
       color: "black",
-      padding: 3,
+      // padding: 3,
       fontWeight: "bold",
       fontSize: 19,
+      marginTop: "2%",
     },
   },
   dark: {
@@ -30,20 +56,25 @@ module.exports = StyleSheet.create({
     activeTab: "#05162A",
 
     container: {
-      // flex: 1,
       flexGrow: 1,
-
-      // paddingHorizontal: Dimensions.get("screen").width / 13,
-      // paddingTop: Dimensions.get("screen").height / 30,
-
       backgroundColor: "#222222",
+    },
+
+    title: {
+      fontWeight: "bold",
+      fontSize: 20,
+      textAlign: "center",
+      marginTop: Dimensions.get("screen").height / 30,
+      marginBottom: Dimensions.get("screen").height / 50,
+      color: "white",
     },
 
     text: {
       color: "white",
-      padding: 3,
+      // padding: 3,
       fontWeight: "bold",
       fontSize: 15,
+      marginTop: "2%",
     },
   },
 });

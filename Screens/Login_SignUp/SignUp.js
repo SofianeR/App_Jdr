@@ -35,7 +35,6 @@ const SignUpScreen = ({ navigation, setUser }) => {
           username: username,
           password: password,
         });
-        console.log(response.data);
         setUser(response.data.token);
       } else {
         setErrorMessage("Les mots de passes ne sont pas identiques");

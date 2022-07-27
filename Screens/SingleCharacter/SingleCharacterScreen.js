@@ -8,12 +8,7 @@ const SingleCharacterScreen = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <Button
-        title="Console"
-        onPress={() => {
-          console.log(character);
-        }}
-      />
+      <Button title="Console" onPress={() => {}} />
       <Text>{character.name}</Text>
       <Text>SingleCharacter</Text>
     </View>

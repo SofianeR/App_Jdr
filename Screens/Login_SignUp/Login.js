@@ -35,7 +35,6 @@ const LoginScreen = ({ navigation, setUser }) => {
           email: email,
           password: password,
         });
-        console.log(response.data);
         setUser(response.data.token);
       } else {
         setErrorMessage("Un des champs est vide");

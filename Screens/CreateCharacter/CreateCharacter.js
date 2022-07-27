@@ -69,9 +69,10 @@ const CreateCharacter = ({ darkMode, token, navigation }) => {
         characteristics: characteristics,
         token: token,
       });
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
-      console.log(error.message);
+      setErrorMessage(error.message);
+      // console.log(error.message);
     }
     setIsLoading(false);
     // navigation.navigate("Home");
@@ -97,7 +98,12 @@ const CreateCharacter = ({ darkMode, token, navigation }) => {
           setModal={setModal}
         />
       ) : next === 2 ? (
-        <RaceComponent darkMode={darkMode} race={race} setRace={setRace} />
+        <RaceComponent
+          darkMode={darkMode}
+          race={race}
+          setRace={setRace}
+          navigation={navigation}
+        />
       ) : next === 3 ? (
         <ClassComponent
           darkMode={darkMode}
