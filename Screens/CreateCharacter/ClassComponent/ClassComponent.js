@@ -17,8 +17,9 @@ import LoadingGetServer from "../../../Shared/LoadingGetServer";
 import WeaponMastery from "./WeaponMastery";
 import Proficiencies from "./Proficiencies";
 import Equipment from "./Equipment";
+import SpellCasting from "./SpellCasting";
 
-const ClassComponent = ({ setClasse, classe, darkMode }) => {
+const ClassComponent = ({ setClasse, classe, darkMode, navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -87,7 +88,7 @@ const ClassComponent = ({ setClasse, classe, darkMode }) => {
       <Button
         title="Console"
         onPress={() => {
-          // console.log(classeDetails);
+          console.log(classeDetails);
           //   console.log(bonusMaitrise, bonusMaitrise.length);
         }}
       />
@@ -151,31 +152,11 @@ const ClassComponent = ({ setClasse, classe, darkMode }) => {
 
             <Equipment darkMode={darkMode} classeDetails={classeDetails} />
 
-            <View></View>
-            {classeDetails.spellcasting ? (
-              <View>
-                <Text style={[themeStyle.title, { color: "white" }]}>
-                  SpellCasting
-                </Text>
-                <View>
-                  <Text style={themeStyle.dark.text}>
-                    {`Stat pour sorts : ${classeDetails.spellcasting.spellcasting_ability.name}`}
-                  </Text>
-                  <View>
-                    {classeDetails.spellcasting.info.map((item, index) => {
-                      return (
-                        <View>
-                          <Text style={[themeStyle.title, { color: "white" }]}>
-                            {item.name}
-                          </Text>
-                          <Text style={themeStyle.dark.text}>{item.desc}</Text>
-                        </View>
-                      );
-                    })}
-                  </View>
-                </View>
-              </View>
-            ) : null}
+            <SpellCasting
+              darkMode={darkMode}
+              classeDetails={classeDetails}
+              navigation={navigation}
+            />
           </View>
         )}
       </View>

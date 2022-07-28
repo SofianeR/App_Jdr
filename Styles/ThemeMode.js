@@ -1,6 +1,10 @@
 import { StyleSheet, Dimensions } from "react-native";
 
 module.exports = StyleSheet.create({
+  blueColor: "#3490dc",
+  greenColor: "#06C2A3",
+  redColor: "#ff7b6f",
+
   title: {
     fontWeight: "bold",
     fontSize: 20,
@@ -17,7 +21,6 @@ module.exports = StyleSheet.create({
     marginBottom: "1%",
   },
 
-  blueColor: "#3490dc",
   light: {
     color: "black",
 

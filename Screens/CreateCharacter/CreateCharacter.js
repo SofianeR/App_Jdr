@@ -109,6 +109,7 @@ const CreateCharacter = ({ darkMode, token, navigation }) => {
           darkMode={darkMode}
           classe={classe}
           setClasse={setClasse}
+          navigation={navigation}
         />
       ) : next === 4 ? (
         <StatComponent

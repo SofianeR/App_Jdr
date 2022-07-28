@@ -13,6 +13,7 @@ import HomeScreen from "./Screens/Home";
 import SettingsScreen from "./Screens/Settings";
 import CreateCharacter from "./Screens/CreateCharacter/CreateCharacter";
 import SingleCharacterScreen from "./Screens/SingleCharacter/SingleCharacterScreen";
+import SpellListScreen from "./Screens/SpellsListScreen";
 
 // import icon
 import { Ionicons } from "@expo/vector-icons";
@@ -158,8 +159,15 @@ export default function App() {
                     />
                   )}
                 </Stack.Screen>
+
                 <Stack.Screen name="Help" options={{ headerShown: false }}>
                   {(props) => <ModalHelp {...props} darkMode={darkMode} />}
+                </Stack.Screen>
+
+                <Stack.Screen name="Spells" options={{ headerShown: false }}>
+                  {(props) => (
+                    <SpellListScreen {...props} darkMode={darkMode} />
+                  )}
                 </Stack.Screen>
               </Stack.Navigator>
             )}
